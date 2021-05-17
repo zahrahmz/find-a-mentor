@@ -40,9 +40,9 @@ const RouterLoader = styled.div`
     getCurrentUser();
     ReactDOM.render(
       <UserProvider>
-        <FiltersProvider>
-          <ModalHookProvider>
-            <Router>
+        <ModalHookProvider>
+          <Router>
+            <FiltersProvider>
               <Switch>
                 <Suspense
                   fallback={
@@ -55,11 +55,12 @@ const RouterLoader = styled.div`
                     <App />
                   </Route>
                   <Route path="/me" component={Me} />
+                  <Route path="/s/:id" component={App} />
                 </Suspense>
               </Switch>
-            </Router>
-          </ModalHookProvider>
-        </FiltersProvider>
+            </FiltersProvider>
+          </Router>
+        </ModalHookProvider>
       </UserProvider>,
       document.getElementById('root')
     );
