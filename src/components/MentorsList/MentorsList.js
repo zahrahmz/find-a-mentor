@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import InfiniteScroll from 'react-infinite-scroller';
 import Card from '../Card/Card';
 
-import './MentorList.css';
 import { Loader } from '../Loader';
 import { report } from '../../ga';
 

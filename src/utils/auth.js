@@ -12,13 +12,17 @@ class Auth {
 
   expiresAt;
 
-  auth0 = new auth0.WebAuth({
-    domain: Constants.auth.DOMAIN,
-    clientID: Constants.auth.CLIENT_ID,
-    redirectUri: Constants.auth.CALLBACK_URL,
-    responseType: 'token id_token',
-    scope: 'openid',
-  });
+  constructor() {
+    const config = {
+      domain: Constants.auth.DOMAIN,
+      clientID: Constants.auth.CLIENT_ID,
+      redirectUri: Constants.auth.CALLBACK_URL,
+      responseType: 'token id_token',
+      scope: 'openid',
+    };
+    console.log(config);
+    this.auth0 = new auth0.WebAuth(config);
+  }
 
   login = isMentorIntent => {
     this.auth0.authorize({
@@ -54,8 +58,8 @@ class Auth {
   setSession(authResult) {
     const expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
 
-    // Set isLoggedIn flag in localStorage
-    localStorage.setItem(
+    // Set isLoggedIn flag in window.localStorage
+    window.localStorage.setItem(
       storageKey,
       JSON.stringify({
         accessToken: authResult.accessToken,
@@ -83,7 +87,10 @@ class Auth {
   }
 
   loadSession() {
-    const json = localStorage.getItem(storageKey);
+    if (typeof window === 'undefined') {
+      return;
+    }
+    const json = window.localStorage.getItem(storageKey);
 
     if (json) {
       const session = JSON.parse(json);
@@ -126,8 +133,8 @@ class Auth {
     this.idToken = null;
     this.expiresAt = 0;
 
-    // Remove token from localStorage
-    localStorage.removeItem(storageKey);
+    // Remove token from window.localStorage
+    window.localStorage.removeItem(storageKey);
   };
 
   doLogout = () => {

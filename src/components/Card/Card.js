@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import Obfuscate from 'react-obfuscate';
 import { orderBy } from 'lodash';
-import './Card.css';
 import { getChannelInfo } from '../../channelProvider';
 import classNames from 'classnames';
 import { report } from '../../ga';

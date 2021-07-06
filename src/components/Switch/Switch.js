@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import './Switch.css';
 
 function SwitchLabel({ id, label }) {
   return (
