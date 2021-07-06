@@ -88,7 +88,7 @@ class Auth {
 
   loadSession() {
     if (typeof window === 'undefined') {
-      return;
+      return this;
     }
     const json = window.localStorage.getItem(storageKey);
 
