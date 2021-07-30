@@ -80,7 +80,6 @@ const Me = ({
   );
 };
 
-
 export default Me;
 
 const Container = styled.div`

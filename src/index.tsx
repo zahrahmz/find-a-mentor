@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
 import auth from './utils/auth';
-import { getCurrentUser } from './api';
 import './index.css';
 import { reportError } from './ga';
 import * as Sentry from '@sentry/browser';
@@ -12,6 +11,7 @@ import { FiltersProvider } from './context/filtersContext/FiltersContext';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ModalHookProvider } from './context/modalContext/ModalContext';
 import styled from 'styled-components';
+import { Loader } from './components/Loader';
 
 const Me = React.lazy(() => import(/* webpackChunkName: "Me" */ './Me/Me'));
 
@@ -36,8 +36,6 @@ const RouterLoader = styled.div`
 (async () => {
   try {
     await auth.renewSession();
-    // prepare user - don't wait for it
-    getCurrentUser();
     ReactDOM.render(
       <UserProvider>
         <ModalHookProvider>
@@ -47,15 +45,14 @@ const RouterLoader = styled.div`
                 <Suspense
                   fallback={
                     <RouterLoader>
-                      <i className="fa fa-2x fa-spin fa-spinner" />
+                      <Loader size={2} />
                     </RouterLoader>
                   }
                 >
-                  <Route exact path="/">
+                  <Route path="/me" component={Me} />
+                  <Route path={['/', '/u/:id']} exact>
                     <App />
                   </Route>
-                  <Route path="/me" component={Me} />
-                  <Route path="/s/:id" component={App} />
                 </Suspense>
               </Switch>
             </FiltersProvider>
